@@ -17,13 +17,13 @@
 # limitations under the License.
 #
 
-ldaputils_pkg = 'ldap-utils'
-case node['platform_family']
-    when 'debian'
+case node['platform']
+    when 'debian', 'ubuntu'
         ldaputils_pkg = 'ldap-utils'
-    when 'rhel'
+    when 'redhat', 'centos'
         ldaputils_pkg = 'openldap-clients'
-end
+    else
+        ldaputils_pkg = 'ldap-utils'
 
 package ldaputils_pkg do
   action :upgrade
@@ -34,3 +34,4 @@ directory node['openldap']['ssl_dir'] do
   owner "root"
   group "root"
 end
+
