@@ -55,15 +55,17 @@ end
 
 if node['openldap']['tls_enabled'] && node['openldap']['manage_ssl']
   cookbook_file node['openldap']['ssl_cert'] do
+    source "ssl/#{node['openldap']['server']}_cert.pem"
+    mode 00644
+    owner "root"
+    group "root"
+  end
+  cookbook_file node['openldap']['ssl_key'] do
     source "ssl/#{node['openldap']['server']}.pem"
     mode 00644
     owner "root"
     group "root"
   end
-end
-
-service "slapd" do
-  action [:enable, :start]
 end
 
 if (node['platform'] == "ubuntu")
@@ -115,3 +117,8 @@ else
     notifies :restart, "service[slapd]"
   end
 end
+
+service "slapd" do
+  action [:enable, :start]
+end
+
