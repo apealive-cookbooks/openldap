@@ -24,6 +24,7 @@ case node['platform']
         ldaputils_pkg = 'openldap-clients'
     else
         ldaputils_pkg = 'ldap-utils'
+end
 
 package ldaputils_pkg do
   action :upgrade
